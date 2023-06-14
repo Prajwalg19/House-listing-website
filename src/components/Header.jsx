@@ -4,7 +4,7 @@ function Header() {
     const location = useLocation();
     const navigate = useNavigate();
     function change(params) {
-        if (params == location.pathname) return true;
+        if (params === location.pathname) return true;
     }
     const navigation = (value) => {
         navigate(value);
@@ -19,7 +19,7 @@ function Header() {
                     <div>
                         <ul className="flex ; space-x-9 ">
                             <li
-                                className={` py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/") && "text-black border-b-red-500"}`}
+                                className={` py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/") && "text-black border-b-blue-500"}`}
                                 onClick={() => {
                                     navigation("/");
                                 }}
@@ -29,7 +29,7 @@ function Header() {
                             </li>
 
                             <li
-                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/offers") && "text-black border-b-red-500"}`}
+                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/offers") && "text-black border-b-blue-500"}`}
                                 onClick={() => {
                                     navigation("/offers");
                                 }}
@@ -37,7 +37,7 @@ function Header() {
                                 Offers
                             </li>
                             <li
-                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/sign-in") && "text-black border-b-red-500"}`}
+                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/sign-in") && "text-black border-b-blue-500"}`}
                                 onClick={() => {
                                     navigation("/sign-in");
                                 }}
