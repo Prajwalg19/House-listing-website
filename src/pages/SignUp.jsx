@@ -7,6 +7,10 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import userEvent from "@testing-library/user-event";
+
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const auth = getAuth(); //authentication for firebase using email and password
@@ -24,25 +28,26 @@ function SignUp() {
         e.preventDefault();
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            toast.success("Account Created Successfully", { position: "bottom-center", hideProgressBar: true, delay: 200 });
             updateProfile(auth.currentUser, {
                 displayName: name,
             });
             const formDataCopy = { ...formData };
             delete formDataCopy.password;
             await setDoc(doc(db, "users", userCredential.user.uid), formDataCopy);
-            console.log(auth.currentUser);
+
             nav("/");
         } catch (e) {
-            console.log(e);
+            let mes = e.toString();
+            toast.error(mes, { autoClose: 3000, position: "bottom-center" });
         }
     }
-    console.log("firestore", db);
     return (
         <div>
             <h1 className="font-bold text-3xl text-center mt-[30px]">Sign Up </h1>
             <div className="flex flex-wrap items-center justify-center   max-w-6xl m-auto py-14 ">
-                <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] ">
-                    <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" className="w-full rounded-2xl" alt="Image of Sign in" />
+                <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] relative lg:top-[46px]">
+                    <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" className=" w-full rounded-2xl" alt="Image of Sign in" />
                 </div>
                 <div className=" md:w-[67%] lg:w-[40%]  w-[70%] lg:ml-[75px] ">
                     <form onSubmit={onSubmit}>

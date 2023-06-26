@@ -15,7 +15,7 @@ function ForgotPassword() {
             <div>
                 <h1 className="font-bold text-3xl text-center mt-[30px]">Forgot Password</h1>
                 <div className="flex flex-wrap items-center justify-center   max-w-6xl m-auto py-14 ">
-                    <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] ">
+                    <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] relative lg:top-9 ">
                         <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" className="w-full rounded-2xl" alt="Image of Sign in" />
                     </div>
                     <div className="md:w-[67%] lg:w-[40%]  w-[70%] lg:ml-[75px] ">

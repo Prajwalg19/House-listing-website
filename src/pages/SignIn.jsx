@@ -21,7 +21,7 @@ function SignIn() {
         <div div-purpose="Main container that is useful for creating a flex container">
             <h1 className="font-bold text-3xl text-center mt-[30px]">Sign In </h1>
             <div div-purpose="container for image" className="flex flex-wrap items-center justify-center   max-w-6xl m-auto py-14 ">
-                <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] ">
+                <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] relative lg:top-[46px]">
                     <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" className="w-full rounded-2xl" alt="Image of Sign in" />
                 </div>
                 <div div-purpose="container for inputs" className="md:w-[67%] lg:w-[40%]  w-[70%] lg:ml-[75px] ">

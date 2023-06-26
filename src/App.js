@@ -6,9 +6,11 @@ import Offers from "./pages/Offers";
 import ForgotPassword from "./pages/ForgotPassword";
 import Header from "./components/Header";
 import SignUp from "./pages/SignUp";
+import { ToastContainer } from "react-toastify";
 function App() {
     return (
         <>
+            <ToastContainer />
             <Router>
                 <Header />
                 <Routes>
