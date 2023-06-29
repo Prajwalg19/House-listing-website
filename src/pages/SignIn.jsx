@@ -3,8 +3,12 @@ import { AiFillEyeInvisible } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import OAuth from "../components/googleButton";
-import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function SignIn() {
+    const auth = getAuth();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -14,8 +18,16 @@ function SignIn() {
     function update(event) {
         setFormData((prev) => ({ ...prev, [event.target.id]: event.target.value }));
     }
-    function onSubmit(e) {
+    async function onSubmit(e) {
         e.preventDefault();
+        try {
+            const credentials = await signInWithEmailAndPassword(auth, email, password);
+            console.log(credentials);
+            toast.success(`Signed in Successfully as  ${credentials.user.displayName} `, { position: "bottom-center", hideProgressBar: true, theme: "dark" });
+            navigate("/");
+        } catch (w) {
+            toast.error("Email or Password Error", { position: "bottom-center", hideProgressBar: true, theme: "dark" });
+        }
     }
     return (
         <div div-purpose="Main container that is useful for creating a flex container">
@@ -31,7 +43,7 @@ function SignIn() {
                             <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full pl-4 text-xl border-gray-500 rounded-lg " id="password" value={password} onChange={update} />
                             {showPassword ? <AiFillEyeInvisible className="cursor-pointer absolute top-3 right-3" onClick={() => setShowPassword((pre) => !pre)} /> : <AiFillEye className="cursor-pointer absolute top-3 right-3" onClick={() => setShowPassword((prev) => !prev)} />}
                         </div>
-                        <div className="flex mt-4 justify-between whitespace-nowrap text-sm lg:text-lg">
+                        <div className="flex mt-4 justify-between whitespace-nowrap text-lg lg:text-lg">
                             <p>
                                 Don't have an account?{"  "}
                                 <Link to="/sign-up" className="ml-1 duration-200  ease-in-out hover:text-red-700 cursor-pointer inline-block text-red-600">
@@ -48,9 +60,9 @@ function SignIn() {
                                 Sign in
                             </button>
                             <p className="text-center my-3">OR</p>
-                            <OAuth />
                         </div>
                     </form>
+                    <OAuth />
                 </div>
             </div>
         </div>
