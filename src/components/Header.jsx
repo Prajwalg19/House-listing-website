@@ -1,14 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { serverTimestamp } from "firebase/firestore";
 function Header() {
     const location = useLocation();
     const navigate = useNavigate();
+    const auth = getAuth();
+    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setLoggedIn(true);
+            } else {
+                setLoggedIn(false);
+            }
+        });
+    }, [auth]);
     function change(params) {
         if (params === location.pathname) return true;
     }
+
     const navigation = (value) => {
         navigate(value);
     };
+
     return (
         <>
             <div className="sticky top-0 bg-white border-b shadow-md z-10">
@@ -37,12 +53,16 @@ function Header() {
                                 Offers
                             </li>
                             <li
-                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/sign-in") && "text-stone-700 border-b-blue-500"}`}
+                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${(change("/sign-in") || change("/profile")) && "text-stone-700 border-b-blue-500"}`}
                                 onClick={() => {
-                                    navigation("/sign-in");
+                                    if (loggedIn) {
+                                        navigation("/profile");
+                                    } else {
+                                        navigation("/sign-in");
+                                    }
                                 }}
                             >
-                                Sign In
+                                {loggedIn ? "Profile" : "Sign In"}
                             </li>
                         </ul>
                     </div>

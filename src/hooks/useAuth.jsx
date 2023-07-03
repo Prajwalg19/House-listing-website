@@ -14,5 +14,5 @@ export function useAuth() {
         });
     });
 
-    return { loggedIn, checking };
+    return { loggedIn, checking, setLoggedIn };
 }
