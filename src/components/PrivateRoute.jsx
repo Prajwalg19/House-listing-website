@@ -13,9 +13,7 @@ export default function PrivateRoute() {
     if (checking) {
         return (
             <>
-                <div className="flex  justify-center items-center h-[90vh]">
-                    <Spinner />
-                </div>
+                <Spinner />
             </>
         );
     }

@@ -3,6 +3,7 @@ import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { serverTimestamp } from "firebase/firestore";
+import logo from "../assets/home.png";
 function Header() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -27,15 +28,15 @@ function Header() {
 
     return (
         <>
-            <div className="sticky top-0 bg-white border-b shadow-md z-10">
-                <header className="flex items-center justify-between  mx-auto max-w-[1400px]">
+            <div className="sticky top-0 bg-white border-b shadow-md z-10 ">
+                <header className="flex items-center justify-between  mx-auto max-w-[1400px] px-2">
                     <div>
-                        <img src="https://cdn.worldvectorlogo.com/logos/flipkart.svg" onClick={() => navigation("/")} alt="Flipkart Logo" className="h-8 cursor-pointer" />
+                        <img src={logo} onClick={() => navigation("/")} alt="Home logo" className="h-8 cursor-pointer " />
                     </div>
                     <div>
                         <ul className="flex ; space-x-9 ">
                             <li
-                                className={` py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/") && "text-stone-700 border-b-blue-500"}`}
+                                className={` py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/") && "text-stone-700 border-b-purple-500"}`}
                                 onClick={() => {
                                     navigation("/");
                                 }}
@@ -45,7 +46,7 @@ function Header() {
                             </li>
 
                             <li
-                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/offers") && "text-stone-700 text-black border-b-blue-500"}`}
+                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${change("/offers") && "text-stone-700 text-black border-b-purple-500"}`}
                                 onClick={() => {
                                     navigation("/offers");
                                 }}
@@ -53,7 +54,7 @@ function Header() {
                                 Offers
                             </li>
                             <li
-                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${(change("/sign-in") || change("/profile")) && "text-stone-700 border-b-blue-500"}`}
+                                className={`py-4 cursor-pointer text-gray-400  border-b-4 text-sm font-semibold border-transparent ${(change("/sign-in") || change("/profile")) && "text-stone-700 border-b-purple-500"}`}
                                 onClick={() => {
                                     if (loggedIn) {
                                         navigation("/profile");

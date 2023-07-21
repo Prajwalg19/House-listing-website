@@ -5,6 +5,7 @@ export function useAuth() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [checking, setChecking] = useState(true);
     const auth = getAuth();
+
     useEffect(() => {
         onAuthStateChanged(auth, (ok) => {
             if (ok) {
@@ -12,7 +13,6 @@ export function useAuth() {
             }
             setChecking(false);
         });
-    });
-
-    return { loggedIn, checking, setLoggedIn };
+    }, [auth]);
+    return { loggedIn, checking };
 }
