@@ -1,12 +1,12 @@
 import { getAuth } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbListDetails } from "react-icons/tb";
 import { updateProfile, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
 export default function Profile() {
     const auth = getAuth();
     const [editable, setEditable] = useState(false);
@@ -58,6 +58,22 @@ export default function Profile() {
     async function infoEdit(e) {
         setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
+
+    useEffect(() => {
+        async function List() {
+            let ref = collection(db, "listings");
+            let q = query(ref, where("userEmail", "==", auth.currentUser.uid));
+            let docs = await getDocs(q); //returns the QuerySnapshot object , the QuerySnapshot contains documents called QueryDocumentSnapshots
+            let temp = [];
+            docs.docs.map((documents) => {
+                temp.push({
+                    id: documents.id,
+                    data: documents.data(),
+                });
+            });
+        }
+        List();
+    }, [auth.currentUser.uid]);
 
     return (
         <div>

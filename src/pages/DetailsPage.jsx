@@ -110,6 +110,7 @@ function DetailsPage() {
             ...formData,
             imgUrls,
             time: serverTimestamp(),
+            userEmail: auth.currentUser.uid,
         };
         try {
             !offer && delete formDataCopy.discountedPrice;
@@ -256,3 +257,13 @@ function DetailsPage() {
 }
 
 export default DetailsPage;
+//
+//difference between the
+//doc () , collection() , setDoc() and the addDoc()
+// doc() : this method provides the reference to a specific document
+// collection () : this method just provides the reference to the collection and not path to the specific document in the collection
+// setDoc(firestore_instance , data) : this method sets the document with given data. It needs the specific full path to the document as it doesn't set the Id by itself
+// addDoc() : this method creates the document and doesn't require the full path or reference to the document as it can set the id by autogeneration.
+//
+// generally the setDoc() and doc()  are used together same as addDoc() and collection()
+//
