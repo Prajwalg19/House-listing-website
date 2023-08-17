@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/PrivateRoute";
 import DetailsPage from "../src/pages/DetailsPage";
 import Check from "./components/Check";
-import If from "./pages/temp.jsx";
 function App() {
     return (
         <>
@@ -31,7 +30,6 @@ function App() {
                     <Route path="/details" element={<Check />}>
                         <Route path="/details" element={<DetailsPage />} />
                     </Route>
-                    <Route path="/p" element={<If />} />
                 </Routes>
             </BrowserRouter>
         </>

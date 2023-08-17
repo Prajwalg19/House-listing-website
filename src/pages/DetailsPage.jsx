@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { uuidv4 } from "@firebase/util";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { serverTimestamp } from "firebase/firestore";
 function DetailsPage() {
     const auth = getAuth();
     const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ function DetailsPage() {
         address: "",
         description: "",
         offer: false,
-        discountedPrice: 1,
+        discountedPrice: 0,
         bedrooms: 1,
         bathrooms: 2,
         regularPrice: 0,
@@ -63,8 +64,8 @@ function DetailsPage() {
             toast.error("more than 6 images were uploaded");
             return;
         }
-        if (discountedPrice >= regularPrice && offer) {
-            toast.error("Discount price is greater than normal ");
+        if (+discountedPrice >= +regularPrice) {
+            toast.error("Discount price is greater than normal price ");
             return;
         }
         async function storeImages(image) {
@@ -98,9 +99,9 @@ function DetailsPage() {
             });
         }
         setLoading(true);
-
-        const imgUrls = await Promise.all([...images].map((image) => storeImages(image))).catch((e) => {
-            //all method of promise takes in a iterator and executes then if all promises are resolved , if just one reject occurs then catch is exected
+        let imgarr = Object.values(images);
+        const imgUrls = await Promise.all(imgarr.map((image) => storeImages(image))).catch((e) => {
+            //all method of promise takes in a iterator and executes then if all promises are resolved , if just one reject occurs then catch is executed
             toast.error("Image upload went wrong");
             setLoading(false);
             return;
@@ -108,13 +109,14 @@ function DetailsPage() {
         const formDataCopy = {
             ...formData,
             imgUrls,
+            time: serverTimestamp(),
         };
         try {
             !offer && delete formDataCopy.discountedPrice;
             delete formDataCopy.images;
-            const ok = await addDoc(collection(db, "listings"), formDataCopy);
+            const DocumentId = await addDoc(collection(db, "listings"), formDataCopy); //returns the id assigned by the firebase for the document of the listing
             setLoading(false);
-            navigate("/");
+            navigate(`/category/${formData.sellOrRent}/${DocumentId.id}`);
             toast.success("Created Listing");
         } catch (e) {
             toast.error(e);

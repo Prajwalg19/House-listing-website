@@ -3,7 +3,7 @@ import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
-import { doc, setDoc, getDoc, serverTimestamp, Timestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { toHaveAccessibleDescription } from "@testing-library/jest-dom/matchers";
 export default function Button() {
     const navigate = useNavigate();

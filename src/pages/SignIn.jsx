@@ -26,7 +26,11 @@ function SignIn() {
             toast.success(`Signed in Successfully as  ${credentials.user.displayName} `, { position: "bottom-center", hideProgressBar: true, theme: "dark" });
             navigate("/");
         } catch (w) {
-            toast.error("Email or Password Error", { position: "bottom-center", hideProgressBar: true, theme: "dark" });
+            toast.error("Email or Password Error", {
+                position: "bottom-center",
+                hideProgressBar: true,
+                theme: "dark",
+            });
         }
     }
     return (

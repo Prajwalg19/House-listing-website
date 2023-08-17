@@ -19,10 +19,20 @@ export default function Profile() {
     function SignOut() {
         try {
             const out = signOut(auth);
-            toast.success("Signed Out", { position: "bottom-center", hideProgressBar: true, delay: 1200, theme: "dark" });
+            toast.success("Signed Out", {
+                position: "bottom-center",
+                hideProgressBar: true,
+                delay: 1200,
+                theme: "dark",
+            });
             navigate("/");
         } catch (e) {
-            toast.error("Something went wrong", { position: "bottom-center", hideProgressBar: true, delay: 1200, theme: "dark" });
+            toast.error("Something went wrong", {
+                position: "bottom-center",
+                hideProgressBar: true,
+                delay: 1200,
+                theme: "dark",
+            });
         }
     }
 
@@ -31,9 +41,17 @@ export default function Profile() {
             const docRef = doc(db, "users", auth.currentUser.uid);
             await updateProfile(auth.currentUser, { displayName: name });
             updateDoc(docRef, { name: name });
-            toast.success("Updated successfully", { hideProgressBar: true, theme: "dark", position: "bottom-center" });
+            toast.success("Updated successfully", {
+                hideProgressBar: true,
+                theme: "dark",
+                position: "bottom-center",
+            });
         } else {
-            toast.error("Couldn't update the name", { hideProgressBar: true, theme: "dark", position: "bottom-center" });
+            toast.error("Couldn't update the name", {
+                hideProgressBar: true,
+                theme: "dark",
+                position: "bottom-center",
+            });
         }
     }
 
