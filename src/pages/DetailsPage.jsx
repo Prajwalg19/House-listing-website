@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { useNavigate } from "react-router";
 import { uuidv4 } from "@firebase/util";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
@@ -15,7 +15,7 @@ function DetailsPage() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         sellOrRent: "rent",
-        name: "Prajwal",
+        name: "",
         parking: false,
         furnished: false,
         address: "",
@@ -227,17 +227,17 @@ function DetailsPage() {
                             No
                         </button>
                     </div>
-                    <p className="mt-2 mb-1 font-semibold text-md">Regular Price</p>
+                    <p className="mt-2 mb-1 font-semibold text-md">Regular Price (in thousands)</p>
                     <div className="flex items-center space-x-6">
-                        <input type="number" required onChange={onChange} id="regularPrice" value={regularPrice} min="50" className="w-full text-center border border-gray-400 rounded transition ease-in-out" />
+                        <input type="number" required onChange={onChange} id="regularPrice" value={regularPrice} min="1000" className="w-full text-center border border-gray-400 rounded transition ease-in-out" />
                         {sellOrRent === "rent" ? <div className="w-full font-medium text-md whitespace-nowrap">&#8377; / Month </div> : <div className="w-full [visibility:hidden]"></div>}
                     </div>
 
                     {offer ? (
                         <>
-                            <p className="mt-2 mb-1 font-semibold text-md">Discounted Price </p>
+                            <p className="mt-2 mb-1 font-semibold text-md">Discounted Price (in thousands)</p>
                             <span className="flex items-center space-x-6">
-                                <input id="discountedPrice" type="number" required={offer} min="50" max="400000000" value={discountedPrice} onChange={onChange} className="w-full text-center border border-gray-400 roudned transition ease-in-out" />{" "}
+                                <input id="discountedPrice" type="number" required={offer} min="100" max="400000000" value={discountedPrice} onChange={onChange} className="w-full text-center border border-gray-400 roudned transition ease-in-out" />{" "}
                                 {sellOrRent === "rent" ? <span className="w-full">&#8377; / Month</span> : <div className="w-full [visibility:hidden]"></div>}
                             </span>
                         </>

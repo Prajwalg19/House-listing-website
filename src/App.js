@@ -14,7 +14,7 @@ import Check from "./components/Check";
 function App() {
     return (
         <>
-            <ToastContainer position="bottom-center" theme="dark" hideProgressBar={true} />
+            <ToastContainer position="bottom-center" theme="dark" />
             <BrowserRouter>
                 <Header />
                 <Routes>

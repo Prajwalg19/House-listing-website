@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
-import { collection, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
+import ListingItems from "../components/ListingItems";
 export default function Profile() {
     const auth = getAuth();
     const [editable, setEditable] = useState(false);
@@ -16,6 +17,29 @@ export default function Profile() {
     });
     const navigate = useNavigate();
     const { name, email } = formData;
+    const [listing, setListing] = useState("");
+    async function onDelete(list) {
+        const docs = doc(db, "listings", list);
+        if (window.confirm("Do you want to delete it? ")) {
+            let f = await deleteDoc(docs);
+
+            let i = 0;
+            let form = [...listing];
+            form.forEach((l) => {
+                if (l.id == list) {
+                    form.splice(i, 1);
+                }
+                i++;
+            });
+            setListing(form);
+            toast.success("Deleted listing successfully");
+        }
+    }
+
+    function onEdit(list) {
+        navigate(`/edit/${list}`);
+    }
+
     function SignOut() {
         try {
             const out = signOut(auth);
@@ -66,21 +90,23 @@ export default function Profile() {
             let docs = await getDocs(q); //returns the QuerySnapshot object , the QuerySnapshot contains documents called QueryDocumentSnapshots
             let temp = [];
             docs.docs.map((documents) => {
-                temp.push({
+                return temp.push({
                     id: documents.id,
                     data: documents.data(),
                 });
             });
+            if (temp.length != 0) {
+                setListing(temp);
+            }
         }
         List();
     }, [auth.currentUser.uid]);
-
     return (
         <div>
             <div className="flex flex-col flex-wrap items-center justify-center max-w-6xl mx-auto ">
                 <div className="my-6 text-3xl font-bold text-center ">My Profile</div>
                 <form className="w-[95%] m-auto  md:w-[50%] ">
-                    <input type="text" disabled={!editable} id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400 bg-white text-gray-700 ${editable && "bg-rose-300 text-black"} `} onChange={infoEdit} />
+                    <input type="text" disabled={!editable} id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400  text-gray-700 ${editable && "bg-rose-300  text-black"} `} onChange={infoEdit} />
                     <input type="text" value={email} id="email" className={`w-full p-3 my-4 text-xl rounded transition ease-in-out border-gray-400 bg-white `} disabled />
                     <div className="flex justify-between mt-1">
                         <p className="text-lg ">
@@ -96,17 +122,19 @@ export default function Profile() {
                                 {editable ? "Apply changes" : "Edit"}
                             </span>{" "}
                         </p>
-                        <p className="text-lg text-red-600  cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={SignOut}>
-                            Sign out
-                        </p>
+                        <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100 onClick={SignOut}">Sign out</p>
                     </div>
                     <Link to="/details">
                         {" "}
-                        <button className=" rounded-md cursor-pointer flex p-4 mt-5 uppercase text-sm font-semibold bg-blue-600 text-white w-full justify-center items-center flex-row-reverse transition duration-100 ease-in-out shadow-md hover:shadow-xl active:bg-blue-800">
-                            Add Details <TbListDetails className="text-lg rounded-full mr-2" />
+                        <button className="flex flex-row-reverse items-center justify-center w-full p-4 mt-5 text-sm font-semibold text-white uppercase bg-blue-600 shadow-md cursor-pointer rounded-md transition duration-100 ease-in-out hover:shadow-xl active:bg-blue-800">
+                            Create Listing
+                            <TbListDetails className="mr-2 text-lg rounded-full" />
                         </button>
                     </Link>
                 </form>
+            </div>
+            <div>
+                <ListingItems listing={listing} onDelete={onDelete} onEdit={onEdit} />
             </div>
         </div>
     );
