@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/PrivateRoute";
 import DetailsPage from "../src/pages/DetailsPage";
 import Check from "./components/Check";
+import EditListing from "./pages/EditListing";
 function App() {
     return (
         <>
@@ -29,6 +30,9 @@ function App() {
 
                     <Route path="/details" element={<Check />}>
                         <Route path="/details" element={<DetailsPage />} />
+                    </Route>
+                    <Route path={`/edit`} element={<Check />}>
+                        <Route path="/edit/:id" element={<EditListing />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

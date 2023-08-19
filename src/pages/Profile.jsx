@@ -122,7 +122,9 @@ export default function Profile() {
                                 {editable ? "Apply changes" : "Edit"}
                             </span>{" "}
                         </p>
-                        <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100 onClick={SignOut}">Sign out</p>
+                        <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={SignOut}>
+                            Sign out
+                        </p>
                     </div>
                     <Link to="/details">
                         {" "}
@@ -139,4 +141,3 @@ export default function Profile() {
         </div>
     );
 }
-// flex justify-between w-[95%] md:w-[50%]  m-auto
