@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { useDebugValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
@@ -34,6 +34,21 @@ function EditListing() {
     });
 
     const { Longitude, Latitude, images, regularPrice, address, sellOrRent, name, parking, furnished, description, offer, discountedPrice, bedrooms, bathrooms } = formData;
+
+    useEffect(() => {
+        setLoading(true);
+        async function DashBoardType() {
+            const info = await getDoc(doc(db, "listings", id));
+            if (auth.currentUser.uid != info.data().userEmail) {
+                toast.error("Not Permitted");
+                navigate("/");
+            }
+            setFormData(info.data());
+            setLoading(false);
+        }
+        DashBoardType();
+    }, [auth.currentUser.uid, id, navigate]);
+
     const onChange = (e) => {
         e.preventDefault();
         let boolean = null;
@@ -62,9 +77,7 @@ function EditListing() {
 
     async function onSubmit(e) {
         e.preventDefault();
-        console.log(formData);
         if (images.length > 6) {
-            console.log(images);
             toast.error("more than 6 images were uploaded");
             return;
         }
@@ -128,24 +141,6 @@ function EditListing() {
         }
     }
 
-    useEffect(() => {
-        setLoading(true);
-        async function DashBoardType() {
-            const info = await getDoc(doc(db, "listings", id));
-            console.log(info);
-            setFormData(info.data());
-            setLoading(false);
-        }
-        DashBoardType();
-    }, [id]);
-
-    useEffect(() => {
-        setLoading(true);
-        if (auth.currentUser.id != formData.userEmail) {
-            toast.error("Not Permitted");
-            navigate("/");
-        }
-    }, [auth.currentUser.id, formData, navigate]);
     if (loading) {
         return <Spinner />;
     }

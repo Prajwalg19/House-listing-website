@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import DetailsPage from "../src/pages/DetailsPage";
 import Check from "./components/Check";
 import EditListing from "./pages/EditListing";
+import Listing from "./pages/Listing";
 function App() {
     return (
         <>
@@ -34,6 +35,7 @@ function App() {
                     <Route path={`/edit`} element={<Check />}>
                         <Route path="/edit/:id" element={<EditListing />} />
                     </Route>
+                    <Route path="/category/:type/:id" element={<Listing />}></Route>
                 </Routes>
             </BrowserRouter>
         </>

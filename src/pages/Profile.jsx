@@ -109,7 +109,7 @@ export default function Profile() {
                     <input type="text" disabled={!editable} id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400  text-gray-700 ${editable && "bg-rose-300  text-black"} `} onChange={infoEdit} />
                     <input type="text" value={email} id="email" className={`w-full p-3 my-4 text-xl rounded transition ease-in-out border-gray-400 bg-white `} disabled />
                     <div className="flex justify-between mt-1">
-                        <p className="text-lg ">
+                        <div className="text-lg ">
                             Want to change your name?{" "}
                             <span
                                 className="text-blue-600 cursor-pointer transition ease-in-out duration-100 hover:text-blue-800"
@@ -121,10 +121,10 @@ export default function Profile() {
                             >
                                 {editable ? "Apply changes" : "Edit"}
                             </span>{" "}
-                        </p>
-                        <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={SignOut}>
+                        </div>
+                        <div className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={SignOut}>
                             Sign out
-                        </p>
+                        </div>
                     </div>
                     <Link to="/details">
                         {" "}
