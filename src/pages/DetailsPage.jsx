@@ -5,7 +5,7 @@ import Spinner from "../components/Spinner";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { useNavigate } from "react-router";
 import { uuidv4 } from "@firebase/util";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import { serverTimestamp } from "firebase/firestore";
 function DetailsPage() {
@@ -13,6 +13,7 @@ function DetailsPage() {
     const [loading, setLoading] = useState(false);
     const store = getStorage();
     const navigate = useNavigate();
+    const [counter, setCounter] = useState(0);
     const [formData, setFormData] = useState({
         sellOrRent: "rent",
         name: "",
@@ -68,6 +69,25 @@ function DetailsPage() {
             toast.error("Discount price is greater than normal price ");
             return;
         }
+        setLoading(true);
+
+        let geoLocation = {};
+        let f = await fetch(`https://geocode.maps.co/search?q=${address}`);
+        let response = await f?.json();
+        if (response.length != 0) {
+            console.log(response);
+            geoLocation.lat = response[0].lat;
+            geoLocation.long = response[0].lon;
+        } else if (Object.keys(response).length == 0 && counter == 0) {
+            toast.error("Address invalid, manually enter the Co-ordinates if possible");
+            setCounter(1);
+            setLoading(false);
+            return;
+        } else {
+            geoLocation.lat = Longitude;
+            geoLocation.long = Longitude;
+        }
+
         async function storeImages(image) {
             return new Promise((resolve, reject) => {
                 const reference = ref(store, `${auth.currentUser.uid}${image.name}-${uuidv4()}`);
@@ -98,7 +118,6 @@ function DetailsPage() {
                 );
             });
         }
-        setLoading(true);
         let imgarr = Object.values(images);
         const imgUrls = await Promise.all(imgarr.map((image) => storeImages(image))).catch((e) => {
             //all method of promise takes in a iterator and executes then if all promises are resolved , if just one reject occurs then catch is executed
@@ -106,15 +125,22 @@ function DetailsPage() {
             setLoading(false);
             return;
         });
+
         const formDataCopy = {
             ...formData,
             imgUrls,
             time: serverTimestamp(),
             userEmail: auth.currentUser.uid,
+            geoLat: geoLocation.lat,
+            geolong: geoLocation.long,
         };
         try {
             !offer && delete formDataCopy.discountedPrice;
             delete formDataCopy.images;
+            if (Object.keys(geoLocation).length == 0) {
+                delete formDataCopy.geoLat;
+                delete formDataCopy.geolong;
+            }
             const DocumentId = await addDoc(collection(db, "listings"), formDataCopy); //returns the id assigned by the firebase for the document of the listing
             setLoading(false);
             navigate(`/category/${formData.sellOrRent}/${DocumentId.id}`);
