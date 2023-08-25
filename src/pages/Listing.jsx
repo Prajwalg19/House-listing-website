@@ -37,7 +37,7 @@ function Listing() {
     }
     return (
         <div>
-            <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect="fade" modules={[EffectFade]} autoplay={{ delay: 3000 }}>
+            <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect="slide" modules={[EffectFade]} autoplay={{ delay: 3000 }}>
                 {listing.imgUrls.map((i, index) => (
                     <SwiperSlide key={index}>
                         <div className="z-[-1] relative w-full overflow-hidden h-[300px] " key={index} style={{ background: ` url(${i}) no-repeat center`, backgroundSize: "cover" }}></div>
@@ -59,7 +59,7 @@ function Listing() {
             </div>
 
             <div className="relative flex flex-col items-center justify-center max-w-6xl p-3 m-5 shadow-md md:flex-row bg-slate-50 space-y-3 md:space-y-0 md:mx-auto md:space-x-6 ">
-                <div className="h-[400px] md:w-1/2 w-full top-2">
+                <div className="h-[500px] md:w-1/2 w-full top-2">
                     <p className="text-2xl font-medium text-blue-400 ">
                         {listing.name} <span> - &#8377;{listing.regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span> {listing.sellOrRent == "rent" ? <span> / month</span> : ""}
                     </p>
@@ -111,7 +111,7 @@ function Listing() {
 
                     {!contactLandloard && <Contact userReference={listing.userEmail} list={listing} />}
                 </div>
-                <div className=" h-[400px] md:w-1/2 w-full">
+                <div className=" h-[500px] md:w-1/2 w-full">
                     <MapContainer center={[listing.geoLat, listing.geolong]} zoom={13} scrollWheelZoom={false} className="w-full h-[100%]">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                         <Marker position={[listing.geoLat, listing.geolong]}>

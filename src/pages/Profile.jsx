@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
-import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, loadBundle, orderBy, query, updateDoc, where } from "firebase/firestore";
 import ListingItems from "../components/ListingItems";
+import Spinner from "../components/Spinner";
 export default function Profile() {
     const auth = getAuth();
     const [editable, setEditable] = useState(false);
@@ -17,7 +18,7 @@ export default function Profile() {
     });
     const navigate = useNavigate();
     const { name, email } = formData;
-    const [listing, setListing] = useState("");
+    const [listing, setListing] = useState([]);
     async function onDelete(list) {
         const docs = doc(db, "listings", list);
         if (window.confirm("Do you want to delete it? ")) {
@@ -35,6 +36,28 @@ export default function Profile() {
             toast.success("Deleted listing successfully");
         }
     }
+    useEffect(() => {
+        async function List() {
+            let ref = collection(db, "listings");
+            let q = query(ref, where("userEmail", "==", auth.currentUser.uid));
+            let docs = await getDocs(q); //returns the QuerySnapshot object , the QuerySnapshot contains documents called QueryDocumentSnapshots
+            let temp = [];
+            docs.docs.map((documents) => {
+                return temp.push({
+                    id: documents.id,
+                    data: documents.data(),
+                });
+            });
+            if (temp.length != 0) {
+                setListing(temp);
+            }
+        }
+        List();
+    }, [auth.currentUser.uid]);
+
+    // if (loading) {
+    //     return <Spinner />;
+    // }
 
     function onEdit(list) {
         navigate(`/edit/${list}`);
@@ -83,24 +106,6 @@ export default function Profile() {
         setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
 
-    useEffect(() => {
-        async function List() {
-            let ref = collection(db, "listings");
-            let q = query(ref, where("userEmail", "==", auth.currentUser.uid));
-            let docs = await getDocs(q); //returns the QuerySnapshot object , the QuerySnapshot contains documents called QueryDocumentSnapshots
-            let temp = [];
-            docs.docs.map((documents) => {
-                return temp.push({
-                    id: documents.id,
-                    data: documents.data(),
-                });
-            });
-            if (temp.length != 0) {
-                setListing(temp);
-            }
-        }
-        List();
-    }, [auth.currentUser.uid]);
     return (
         <div>
             <div className="flex flex-col flex-wrap items-center justify-center max-w-6xl mx-auto ">
@@ -136,6 +141,8 @@ export default function Profile() {
                 </form>
             </div>
             <div>
+                {listing?.length != 0 && <h1 className="my-6 text-2xl font-semibold text-center">My Listings</h1>}
+
                 <ListingItems listing={listing} onDelete={onDelete} onEdit={onEdit} />
             </div>
         </div>

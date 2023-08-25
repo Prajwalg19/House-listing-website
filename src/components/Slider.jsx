@@ -13,7 +13,7 @@ function Slider() {
     useEffect(() => {
         async function fetch() {
             let docsRef = collection(db, "listings");
-            let q = query(docsRef, limit(5));
+            let q = query(docsRef, limit(6));
             let snapShots = await getDocs(q);
             let list = [];
             snapShots.forEach((i) => {

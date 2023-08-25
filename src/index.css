@@ -5,3 +5,12 @@
 body {
     background-color: #ccd9ed;
 }
+
+html::-webkit-scrollbar {
+    /* no scroll-bar in chrome */
+    display: none;
+}
+
+html {
+    scrollbar-width: none; /* no scroll-bar in firefox*/
+}

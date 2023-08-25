@@ -263,7 +263,7 @@ function DetailsPage() {
                         <>
                             <p className="mt-2 mb-1 font-semibold text-md">Discounted Price (in thousands)</p>
                             <span className="flex items-center space-x-6">
-                                <input id="discountedPrice" type="number" required={offer} min="100" max="400000000" value={discountedPrice} onChange={onChange} className="w-full text-center border border-gray-400 roudned transition ease-in-out" />{" "}
+                                <input id="discountedPrice" type="number" required={offer} min="1000" max="400000000" value={discountedPrice} onChange={onChange} className="w-full text-center border border-gray-400 roudned transition ease-in-out" />{" "}
                                 {sellOrRent === "rent" ? <span className="w-full">&#8377; / Month</span> : <div className="w-full [visibility:hidden]"></div>}
                             </span>
                         </>
