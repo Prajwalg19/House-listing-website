@@ -4,15 +4,18 @@ import { db } from "../firebase";
 import ListingItems from "../components/ListingItems";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
-function Offers() {
-    const [offers, setOffers] = useState(null);
+import { useParams } from "react-router";
+function Category() {
+    const [rentAll, setRentAll] = useState(null);
+    const [sellAll, setSellAll] = useState(null);
     const [loading, setLoading] = useState(true);
     const [lastIndex, setLastIndex] = useState(null);
+    const { type } = useParams();
     useEffect(() => {
         async function fetch() {
             try {
                 let docRef = collection(db, "listings");
-                let q = query(docRef, where("offer", "==", true), orderBy("time", "desc"), limit(4));
+                let q = query(docRef, where("sellOrRent", "==", `${type}`), orderBy("time", "desc"));
                 let snapShots = await getDocs(q);
                 let temp = [];
                 snapShots.forEach((s) => {
@@ -23,19 +26,23 @@ function Offers() {
                 });
 
                 setLastIndex(snapShots.docs[snapShots.docs.length - 1]);
-                setOffers(temp);
+                if (type == "rent") {
+                    setRentAll(temp);
+                } else {
+                    setSellAll(temp);
+                }
                 setLoading(false);
             } catch (e) {
-                setLastIndex(false);
+                setLoading(false);
                 toast.error("Couldn't load Offers");
             }
         }
         fetch();
-    }, []);
+    }, [type]);
 
     async function loadMore() {
         let docRef = collection(db, "listings");
-        let q = query(docRef, where("offer", "==", true), orderBy("time", "desc"), startAfter(lastIndex), limit(2)); //startAfter requires orderBy hence i am using it , startAt also doesn't work without orderBy as it gives an error of having many arguments given to the query function and lastIndex
+        let q = query(docRef, where("sellOrRent", "==", `${type}`), orderBy("time", "desc"), startAfter(lastIndex)); //startAfter requires orderBy hence i am using it , startAt also doesn't work without orderBy as it gives an error of having many arguments given to the query function and lastIndex
         //is an object (snapShot) and not a index number
         let snapShots = await getDocs(q);
         let temp = [];
@@ -46,16 +53,37 @@ function Offers() {
             });
         });
         setLastIndex(snapShots.docs[snapShots.docs.length - 1]);
-        setOffers((prev) => [...prev, ...temp]);
+        if (sellAll) {
+            setSellAll((prev) => [...prev, ...temp]);
+        } else {
+            setRentAll((prev) => [...prev, ...temp]);
+        }
     }
     return (
         <>
             {loading ? (
                 <Spinner />
-            ) : offers && offers.length > 0 ? (
+            ) : rentAll && rentAll.length > 0 ? (
                 <div className="max-w-7xl m-auto px-3 ">
-                    <p className="text-3xl font-bold mt-4 mb-6 text-center">Offers</p>
-                    <ListingItems listing={offers} />
+                    <p className="text-3xl font-bold mt-4 mb-6 text-center">{type == "rent" ? "Houses For Rent" : "Houses for Sale"}</p>
+                    <ListingItems listing={rentAll} />
+                    {lastIndex && (
+                        <p className="flex justify-center">
+                            <button
+                                onClick={() => {
+                                    loadMore();
+                                }}
+                                className="px-2 py-1 bg-slate-200 text-black border border-gray-400 hover:bg-slate-300 active:bg-slate-400 transition ease-in-out hover:shadow-md rounded my-2 "
+                            >
+                                Load more
+                            </button>
+                        </p>
+                    )}
+                </div>
+            ) : sellAll && sellAll.length > 0 ? (
+                <div className="max-w-7xl m-auto px-3 ">
+                    <p className="text-3xl font-bold mt-4 mb-6 text-center">{type == "rent" ? "Houses For Rent" : "Houses for Sale"}</p>
+                    <ListingItems listing={sellAll} />
                     {lastIndex && (
                         <p className="flex justify-center">
                             <button
@@ -70,12 +98,12 @@ function Offers() {
                     )}
                 </div>
             ) : (
-                <span className="text-center font-semibold text-xl ">There's no offers at the moment</span>
+                <div>No Places for {type == "rent" ? "Rent" : "Sale"}</div>
             )}
         </>
     );
 }
 
-export default Offers;
+export default Category;
 
 // <> </> this is called empty fragment
