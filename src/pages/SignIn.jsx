@@ -37,34 +37,32 @@ function SignIn() {
         <div div-purpose="Main container that is useful for creating a flex container">
             <h1 className="font-bold text-3xl text-center mt-[30px]">Sign In </h1>
             <div div-purpose="container for image" className="flex flex-wrap items-center justify-center   max-w-6xl m-auto py-14 ">
-                <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] relative lg:top-[46px]">
+                <div className="md:w-[67%] lg:w-[47%] w-[85%] mb-[80px] relative lg:top-[46px]">
                     <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" className="w-full rounded-2xl" alt="Image of Sign in" />
                 </div>
-                <div div-purpose="container for inputs" className="md:w-[67%] lg:w-[40%]  w-[70%] lg:ml-[75px] ">
+                <div div-purpose="container for inputs" className="md:w-[67%] lg:w-[40%]  w-[85%] lg:ml-[75px] ">
                     <form onSubmit={onSubmit}>
                         <input type="email" placeholder="Email address" className="w-full pl-4 mb-4 text-xl text-gray-700 rounded-lg transition ease-in ease-out" value={email} id="email" onChange={update} /> <br />
                         <div className="relative">
                             <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full pl-4 text-xl border-gray-500 rounded-lg " id="password" value={password} onChange={update} />
                             {showPassword ? <AiFillEyeInvisible className="cursor-pointer absolute top-3 right-3" onClick={() => setShowPassword((pre) => !pre)} /> : <AiFillEye className="cursor-pointer absolute top-3 right-3" onClick={() => setShowPassword((prev) => !prev)} />}
                         </div>
-                        <div className="flex mt-4 justify-between whitespace-nowrap text-lg lg:text-lg">
+                        <div className="flex mt-4 justify-between whitespace-nowrap text-sm lg:text-lg ">
                             <p>
                                 Don't have an account?{"  "}
-                                <Link to="/sign-up" className="ml-1 duration-200  ease-in-out hover:text-red-700 cursor-pointer inline-block text-red-600">
+                                <Link to="/sign-up" className="ml-1 duration-200 text-sm lg:text-lg ease-in-out hover:text-red-700 cursor-pointer inline-block text-red-600">
                                     Register
                                 </Link>
                             </p>
-                            <p className="text-blue-600 cursor-pointer hover:text-blue-700">
+                            <p className="text-blue-600 text-sm lg:text-lg cursor-pointer hover:text-blue-700">
                                 <Link to={"/forgot-password"}>Forgot Password? </Link>
                             </p>
                         </div>
-                        <div>
-                            <button type="submit" className="px-44 bg-blue-600 w-full text-white rounded-sm py-3 mt-3 text-sm font-semibold uppercase shadow hover:bg-blue-700 duration-150 hover:shadow-lg active:bg-blue-800   ">
-                                {" "}
-                                Sign in
-                            </button>
-                            <p className="text-center my-3">OR</p>
-                        </div>
+                        <button type="submit" className="px-2 bg-blue-600 w-full text-white rounded-sm py-3 mt-3 text-sm font-semibold uppercase shadow hover:bg-blue-700 duration-150 hover:shadow-lg whitespace-nowrap active:bg-blue-800   ">
+                            {" "}
+                            Sign in
+                        </button>
+                        <p className="text-center my-3">OR</p>
                     </form>
                     <OAuth />
                 </div>
