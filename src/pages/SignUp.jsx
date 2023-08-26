@@ -46,10 +46,10 @@ function SignUp() {
         <div>
             <h1 className="font-bold text-3xl text-center mt-[30px]">Sign Up </h1>
             <div className="flex flex-wrap items-center justify-center   max-w-6xl m-auto py-14 ">
-                <div className="md:w-[67%] lg:w-[47%] w-[70%] mb-[80px] relative lg:top-[46px]">
+                <div className="md:w-[67%] lg:w-[47%] w-[85%] mb-[80px] relative lg:top-[46px]">
                     <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" className=" w-full rounded-2xl" alt="Image of Sign in" />
                 </div>
-                <div className=" md:w-[67%] lg:w-[40%]  w-[70%] lg:ml-[75px] ">
+                <div className=" md:w-[67%] lg:w-[40%]  w-[85%] lg:ml-[75px] ">
                     <form onSubmit={onSubmit}>
                         <input type="text" placeholder="Full name" id="name" onChange={update} value={name} className="form-input w-full mb-4 rounded-lg text-xl text-gray-700 pl-4" />
                         <input type="email" placeholder="Email address" className="w-full pl-4 mb-4 text-xl text-gray-700 rounded-lg transition ease-in ease-out" value={email} id="email" onChange={update} /> <br />
@@ -70,7 +70,7 @@ function SignUp() {
                             </p>
                         </div>
                         <div>
-                            <button type="submit" className="px-44 bg-blue-600 w-full text-white rounded-sm py-3 mt-3 text-sm font-semibold uppercase shadow hover:bg-blue-700 duration-150 hover:shadow-lg active:bg-blue-800   ">
+                            <button type="submit" className="px-2 bg-blue-600 w-full text-white rounded-sm py-3 mt-3 text-sm font-semibold uppercase shadow hover:bg-blue-700 duration-150 hover:shadow-lg active:bg-blue-800   ">
                                 {" "}
                                 Sign Up
                             </button>
