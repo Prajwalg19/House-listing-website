@@ -70,7 +70,7 @@ function SignUp() {
                             </p>
                         </div>
                         <div>
-                            <button type="submit" className="px-2 bg-blue-600 w-full text-white rounded-sm py-3 mt-3 text-sm font-semibold uppercase shadow hover:bg-blue-700 duration-150 hover:shadow-lg active:bg-blue-800   ">
+                            <button type="submit" className="px-2 bg-blue-600 w-full text-white rounded-sm py-3 mt-3 text-sm font-semibold uppercase shadow hover:bg-blue-700 duration-150 whitespace-nowrap hover:shadow-lg active:bg-blue-800   ">
                                 {" "}
                                 Sign Up
                             </button>
