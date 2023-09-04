@@ -57,7 +57,7 @@ function SignUp() {
                             <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full pl-4 text-xl border-gray-500 rounded-lg " id="password" value={password} onChange={update} />
                             {showPassword ? <AiFillEyeInvisible className="cursor-pointer absolute top-3 right-3" onClick={() => setShowPassword((pre) => !pre)} /> : <AiFillEye className="cursor-pointer absolute top-3 right-3" onClick={() => setShowPassword((prev) => !prev)} />}
                         </div>
-                        <div className="flex mt-4 justify-between whitespace-nowrap text-lg lg:text-lg">
+                        <div className="flex mt-4 justify-between whitespace-nowrap text-sm gap-1 sm:text-md lg:text-lg">
                             <p>
                                 Have an account?
                                 <Link to="/sign-in" className="ml-1 duration-200  ease-in-out hover:text-red-700 cursor-pointer inline-block text-red-600">
