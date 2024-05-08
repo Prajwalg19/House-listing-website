@@ -13,7 +13,7 @@ function ListingItems(prop) {
                         {listing.map((l) => {
                             let list = l.data;
                             return (
-                                <li key={l.id} className=" mb-8 z-0 w-full relative bg-white sm:w-[300px] shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow duration-150 mx-[14px] my-[10px]">
+                                <li key={l.id} className=" mb-8 z-0 w-full relative bg-white sm:w-[300px] shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow duration-150 sm:mx-[14px] my-[10px]">
                                     <Link to={`/category/${list.sellOrRent}/${l.id}`} className="contents">
                                         <img src={`${list.imgUrls[0]}`} className="h-[300px] w-full object-cover hover:scale-105 transition ease-in-out duration-150" loading="lazy" />
                                         <Moment fromNow className="shadow-lg font-semibold text-xs uppercase top-3 rounded left-3 text-white px-2 py-1 bg-purple-600 absolute z-1">
