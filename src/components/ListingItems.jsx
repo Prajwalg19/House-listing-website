@@ -9,7 +9,7 @@ function ListingItems(prop) {
         <>
             {listing.length > 0 && (
                 <div className="max-w-7xl mx-auto ">
-                    <ul className="flex justify-center flex-col sm:flex-row space-between flex-wrap">
+                    <ul className="flex flex-col sm:flex-row space-around flex-wrap">
                         {listing.map((l) => {
                             let list = l.data;
                             return (
