@@ -17,7 +17,7 @@ function ListingItems(prop) {
                                     <Link to={`/category/${list.sellOrRent}/${l.id}`} className="contents">
                                         <img src={`${list.imgUrls[0]}`} className="h-[300px] w-full object-cover hover:scale-105 transition ease-in-out duration-150" loading="lazy" />
                                         <Moment fromNow className="shadow-lg font-semibold text-xs uppercase top-3 rounded left-3 text-white px-2 py-1 bg-purple-600 absolute z-1">
-                                            {list.time.toDate()}
+                                            {list.time ? list.time.toDate() : list.timeStamp.toDate()}
                                         </Moment>
                                         <div className="ml-2">
                                             <div className="flex space-x-1 font-semibold  items-center ">
